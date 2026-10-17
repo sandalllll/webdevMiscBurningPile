@@ -69,7 +69,7 @@
 </div>
 
 <script>
-  const { createApp, ref, defineComponent} = Vue
+  const { createApp, ref, defineComponent, onMounted, onUnmounted } = Vue
 
   // --- ЗАДАНИЕ 1 ---
   const Task1 = defineComponent({
@@ -184,14 +184,35 @@
   const Task7 = defineComponent({
     setup()
     {
-      const aList = ref(["Мистраль", "Фён", "Пассат", "Бриз", "Муссон"])
-      return { aList }
+      const tim = ref("")
+      const msg = ref("")
+      let timerId;
+      onMounted(() =>
+      {
+        timerId = setInterval(() =>
+        {
+          const date = new Date();
+          const hours = date.getHours();
+          if ((hours > 6) && (hours < 18))
+            msg.value = "Добрый день";
+          else
+            msg.value = "Доброй ночи";
+          tim.value = date.toLocaleTimeString();
+          console.log('Прошла секунда')
+        }, 1000)
+      })
+
+      onUnmounted(() =>
+      {
+        clearInterval(timerId);
+      })
+
+      return { tim, msg }
     },
     template:
     `
-    <li v-for="(item, index) in aList">
-      {{ index }}. {{ item }}.
-    </li>
+    <span>Сейчас: {{ tim }}.</span><br>
+    <span>{{ msg }}</span>
     `
   })
 
