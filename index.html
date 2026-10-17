@@ -73,18 +73,132 @@
 
   // --- ЗАДАНИЕ 1 ---
   const Task1 = defineComponent({
-    // ...
+    data()
+    {
+      return { name: 'Bop' };
+    },
+    template:
+    `
+    <input v-model="name"><br>
+    <span>Привет {{ name }}.</span>
+    `
   })
 
   // --- ЗАДАНИЕ 2 ---
   const Task2 = defineComponent({
-    // ...
+    setup()
+    {
+      const count = ref(0)
+      return { count }
+    },
+    template:
+    `
+    <button @click="count++">Нажато {{ count }} раз.</button>
+    `
+  })
+
+  // --- ЗАДАНИЕ 3 ---
+  const Task3 = defineComponent({
+    setup()
+    {
+      const showed = ref(true)
+      return { showed }
+    },
+    template:
+    `
+    <button @click="showed = !showed">
+      <span v-if="showed">
+        Скрыть
+      </span>
+      <span v-if="!showed">
+        Показать
+      </span>
+    </button><br>
+    <img v-if="showed" src="dock.png"></img>
+    `
+  })
+
+  // --- ЗАДАНИЕ 4 ---
+  const Task4 = defineComponent({
+    setup()
+    {
+      const aList = ref(["Мистраль", "Фён", "Пассат", "Бриз", "Муссон", "Самум", "Сирокко"])
+      return { aList }
+    },
+    template:
+    `
+    <li v-for="(item, index) in aList">
+      {{ index }}. {{ item }}.
+    </li>
+    `
+  })
+
+  // --- ЗАДАНИЕ 5 ---
+  const Task5 = defineComponent({
+    setup()
+    {
+      const username = ref();
+      const userage = ref();
+      const usersList = ref([]);
+      const handleAdd = ref(function()
+      {
+        usersList.value.push({"username": username.value, "userage": userage.value});
+      });
+      const handleSubmit = ref(function()
+      {
+        usersList.value = [];
+      });
+      return { username, userage, usersList, handleAdd, handleSubmit }
+    },
+    template:
+    `
+    <form @submit.prevent="handleAdd">
+      <input type="text" v-model="username" placeholder="имя">
+      <input type='number' v-model="userage" placeholder="возраст">
+      <button type="submit">Добавить</button>
+    </form>
+    <li v-for="(item, index) in usersList">
+      {{ index }}. {{ item.username }} {{ item.userage }}.
+    </li>
+    <form @submit.prevent="handleSubmit">
+      <button type="submit">Отправить</button>
+    </form>
+    `
+  })
+
+  // --- ЗАДАНИЕ 6 ---
+  const Task6 = defineComponent({
+    setup()
+    {
+      const nmb = ref(0)
+      return { nmb }
+    },
+    template:
+    `
+    <input type="number" v-model="nmb"><br>
+    <span>Оно: {{ nmb }}, квадрат: {{ nmb*nmb }}, куб: {{ nmb*nmb*nmb }}.</span>
+    `
+  })
+
+  // --- ЗАДАНИЕ 7 ---
+  const Task7 = defineComponent({
+    setup()
+    {
+      const aList = ref(["Мистраль", "Фён", "Пассат", "Бриз", "Муссон"])
+      return { aList }
+    },
+    template:
+    `
+    <li v-for="(item, index) in aList">
+      {{ index }}. {{ item }}.
+    </li>
+    `
   })
 
   createApp({
     setup() {
       const currentTab = ref(0)
-      const tabs = [Task1, Task2, ...]
+      const tabs = [Task1, Task2, Task3, Task4, Task5, Task6, Task7]
       return { currentTab, tabs }
     }
   }).mount('#app')
