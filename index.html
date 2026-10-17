@@ -69,7 +69,7 @@
 </div>
 
 <script>
-  const { createApp, ref, defineComponent, onMounted, onUnmounted } = Vue
+  const { createApp, ref, defineComponent, onMounted, onUnmounted, computed } = Vue
 
   // --- ЗАДАНИЕ 1 ---
   const Task1 = defineComponent({
@@ -171,12 +171,32 @@
     setup()
     {
       const nmb = ref(0)
-      return { nmb }
+      const nmbSquared = computed({
+        get()
+        {
+          return nmb.value * nmb.value;
+        },
+        set(newValue)
+        {
+          nmb.value = newValue;
+        }
+      })
+      const nmbCubed = computed({
+        get()
+        {
+          return nmb.value * nmb.value * nmb.value;
+        },
+        set(newValue)
+        {
+          nmb.value = newValue;
+        }
+      })
+      return { nmb,nmbSquared, nmbCubed }
     },
     template:
     `
     <input type="number" v-model="nmb"><br>
-    <span>Оно: {{ nmb }}, квадрат: {{ nmb*nmb }}, куб: {{ nmb*nmb*nmb }}.</span>
+    <span>Оно: {{ nmb }}, квадрат: {{ nmbSquared }}, куб: {{ nmbCubed }}.</span>
     `
   })
 
